@@ -13,11 +13,15 @@ if __name__ == "__main__":
     # TODO: Load initial frame
     prev_f = frames[0]
 
-    # User draws initial frame bounding box here
-    bounding_box = np.array([0, 0, 0 ,0])
+    # User draws initial frame bounding box here (x,y,w,h)
+    bounding_box = np.array([[0.], [0.], [0.] ,[0.]])
 
     # Initialize KF
-    kf = KalmanFilter(initial_img, bounding_box)
+    kf = KalmanFilter(initial_bb=boundin_box, 
+                      dt=1.0, covar=1.0, 
+                      proc_noise=4.0, alpha=0.98, 
+                      r_1_xy=2.0, r_1_wh=5.0, 
+                      r_2_xy=25.0, r_2_wh=50.0)
     sift = Sift(initial_img)
 
     for f in frames:
@@ -25,8 +29,7 @@ if __name__ == "__main__":
         Correct filter with new bounding box on previous frame
         Predict bounding box in new frame
         """
-        kf.correct_filter(prev_f, bounding_box)
-        predicted_box = kf.predict_filter(f)
+        predicted_box = kf.update(bounding_box)
 
         """
         Extract features using sift in previous image
