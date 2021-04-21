@@ -24,7 +24,7 @@ if __name__ == "__main__":
         """
         Correct filter with new bounding box on previous frame
         Predict bounding box in new frame
-        """"
+        """
         kf.correct_filter(prev_f, bounding_box)
         predicted_box = kf.predict_filter(f)
 
