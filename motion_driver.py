@@ -17,7 +17,7 @@ if __name__ == "__main__":
     bounding_box = np.array([[0.], [0.], [0.] ,[0.]])
 
     # Initialize KF
-    kf = KalmanFilter(initial_bb=boundin_box, 
+    kf = KalmanFilter(initial_bb=bounding_box, 
                       dt=1.0, covar=1.0, 
                       proc_noise=4.0, alpha=0.98, 
                       r_1_xy=2.0, r_1_wh=5.0, 
