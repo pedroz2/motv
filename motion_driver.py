@@ -34,16 +34,13 @@ if __name__ == "__main__":
     
     # Loads initial frame into 'frame'
     is_frame_good, frame = video.read()
-    cv2.startWindowThread()
-    cv2.namedWindow("frame")
-    cv2.imshow('frame', frame)
-
-    exit()
-
-
 
     # User draws initial frame bounding box here (x,y,w,h)
-    bounding_box = np.array([[0.], [0.], [0.] ,[0.]])
+    bounding_box = np.array([ [ [30], [30], [400], [400]] ])
+    # pdb.set_trace()
+    cv2.rectangle(  frame, (bounding_box[0][0][0], bounding_box[0][1][0]), 
+                    (bounding_box[0][2][0], bounding_box[0][3][0]),
+                    (255,0,0), 2)
 
     # Initialize KF
     kf = KalmanFilter(initial_bb=bounding_box, 
@@ -57,6 +54,12 @@ if __name__ == "__main__":
         cv2.imshow('video 0', frame)
         prev_f = frame
         is_frame_good, frame = video.read()
+
+        # Redraw frame with new bounding box
+        cv2.rectangle(  frame, (bounding_box[0][0][0], bounding_box[0][1][0]), 
+                    (bounding_box[0][2][0], bounding_box[0][3][0]),
+                    (255,0,0), 2)
+
         """
         Correct filter with new bounding box on previous frame
         Predict bounding box in new frame
