@@ -31,40 +31,49 @@ if __name__ == "__main__":
     print("First frame loaded. User must pick bounds.")
 
     video = loadFrames(DATASET)
-
+    
     # Loads initial frame into 'frame'
-    is_frame_good, frame = video.read(0)
-    prev_f = frame
+    is_frame_good, frame = video.read()
+    cv2.startWindowThread()
+    cv2.namedWindow("frame")
+    cv2.imshow('frame', frame)
+
+    exit()
+
+
 
     # User draws initial frame bounding box here (x,y,w,h)
     bounding_box = np.array([[0.], [0.], [0.] ,[0.]])
 
     # Initialize KF
-    # kf = KalmanFilter(initial_bb=bounding_box, 
-    #                   dt=1.0, covar=1.0, 
-    #                   proc_noise=4.0, alpha=0.98, 
-    #                   r_1_xy=2.0, r_1_wh=5.0, 
-    #                   r_2_xy=25.0, r_2_wh=50.0)
-    # sift = Sift(frame)
+    kf = KalmanFilter(initial_bb=bounding_box, 
+                      dt=1.0, covar=1.0, 
+                      proc_noise=4.0, alpha=0.98, 
+                      r_1_xy=2.0, r_1_wh=5.0, 
+                      r_2_xy=25.0, r_2_wh=50.0)
+    sift = Sift(frame)
 
     while is_frame_good:
         cv2.imshow('video 0', frame)
+        prev_f = frame
         is_frame_good, frame = video.read()
-        # """
-        # Correct filter with new bounding box on previous frame
-        # Predict bounding box in new frame
-        # """
-        # predicted_box = kf.update(bounding_box)
+        """
+        Correct filter with new bounding box on previous frame
+        Predict bounding box in new frame
+        """
+        predicted_box = kf.update(bounding_box)
 
-        # """
-        # Extract features using sift in previous image
-        # Match features extracted in previous image with current image (updates bounding box too)
-        # """
-        # features = sift.extract_features(prev_f, bounding_box)
-        # bounding_box = sift.match_features(f)
+        """
+        Extract features using sift in previous image
+        Match features extracted in previous image with current image (updates bounding box too)
+        """
+        features = sift.extract_features(prev_f, bounding_box)
+        bounding_box = sift.match_features(frame)
 
-        # # Update previous frame
-        # prev_f = f
+        # Update previous frame
+        prev_f = frame
+
+        cv2.waitKey(25) # delays next video frams (ms)
 
     video.release()
     cv2.destroyAllWindows()
