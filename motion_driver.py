@@ -36,7 +36,7 @@ if __name__ == "__main__":
     is_frame_good, frame = video.read()
 
     # User draws initial frame bounding box here (x,y,w,h)
-    bounding_box = np.array([ [ [30], [30], [400], [400]] ])
+    bounding_box = np.array([ [ [850], [670], [1270], [1050]] ]) # hard coded initial bb of white car
     # pdb.set_trace()
     cv2.rectangle(  frame, (bounding_box[0][0][0], bounding_box[0][1][0]), 
                     (bounding_box[0][2][0], bounding_box[0][3][0]),
@@ -60,21 +60,21 @@ if __name__ == "__main__":
                     (bounding_box[0][2][0], bounding_box[0][3][0]),
                     (255,0,0), 2)
 
-        """
-        Correct filter with new bounding box on previous frame
-        Predict bounding box in new frame
-        """
-        predicted_box = kf.update(bounding_box)
+        # """
+        # Correct filter with new bounding box on previous frame
+        # Predict bounding box in new frame
+        # """
+        # predicted_box = kf.update(bounding_box)
 
-        """
-        Extract features using sift in previous image
-        Match features extracted in previous image with current image (updates bounding box too)
-        """
-        features = sift.extract_features(prev_f, bounding_box)
-        bounding_box = sift.match_features(frame)
+        # """
+        # Extract features using sift in previous image
+        # Match features extracted in previous image with current image (updates bounding box too)
+        # """
+        # features = sift.extract_features(prev_f, bounding_box)
+        # bounding_box = sift.match_features(frame)
 
-        # Update previous frame
-        prev_f = frame
+        # # Update previous frame
+        # prev_f = frame
 
         cv2.waitKey(25) # delays next video frams (ms)
 
