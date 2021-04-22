@@ -60,21 +60,22 @@ if __name__ == "__main__":
                     (bounding_box[0][2][0], bounding_box[0][3][0]),
                     (255,0,0), 2)
 
-        # """
-        # Correct filter with new bounding box on previous frame
-        # Predict bounding box in new frame
-        # """
-        # predicted_box = kf.update(bounding_box)
+        """
+        Correct filter with new bounding box on previous frame
+        Predict bounding box in new frame
+        """
+        pdb.set_trace()
+        predicted_box[0] = kf.update(bounding_box[0])
 
-        # """
-        # Extract features using sift in previous image
-        # Match features extracted in previous image with current image (updates bounding box too)
-        # """
-        # features = sift.extract_features(prev_f, bounding_box)
-        # bounding_box = sift.match_features(frame)
+        """
+        Extract features using sift in previous image
+        Match features extracted in previous image with current image (updates bounding box too)
+        """
+        features = sift.extract_features(prev_f, bounding_box[0])
+        bounding_box[0] = sift.match_features(frame)
 
-        # # Update previous frame
-        # prev_f = frame
+        # Update previous frame
+        prev_f = frame
 
         cv2.waitKey(25) # delays next video frams (ms)
 
