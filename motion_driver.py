@@ -74,9 +74,7 @@ if __name__ == "__main__":
         pdb.set_trace()
         features = sift.extract_features(bounding_box[0])
         gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-        matches = sift.match_features(gray_frame)
-        bounding_box[0] = sift.get_new_bounding_box(matches)
-
+        matches, bounding_box[0] = sift.match_features(gray_frame)
         # Update previous frame
 
         cv2.waitKey(25) # delays next video frams (ms)

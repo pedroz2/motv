@@ -51,39 +51,7 @@ class Sift():
         # img3 = cv2.drawMatchesKnn(self.frame, self.keypoints_prev, next_frame, keypoints, good, None)
         # plt.imshow(img3)
 
-        # TODO: Make homography
+        # TODO: Make least squares
         bounding_box = []
         
-        return bounding_box
-
-    def expand_binarize(desc):
-        '''
-        Explicitly expand packed binary keypoint descriptors like AKAZE and ORB.
-        You do not need to modify or worry about this.
-
-        AKAZE and ORB return a descriptor that is binary. Usually one compares
-        descriptors using the hamming distance (# of bits that differ). This is
-        usually fast since one can do this with binary operators. On Intel
-        processors, there's an instruction for this: popcnt/population count.
-
-        On the other hand, this prevents you from actually implementing all the steps
-        of the pipeline and requires you writing a hamming distance. So instead, we
-        explicitly expand the feature from F packed binary uint8s to (8F) explicit 
-        binary 0 or 1 descriptors. The square of the L2 distance of these
-        descriptors is the hamming distance.
-        
-        Converts a matrix where each row is a vector containing F uint8s into their
-        explicit binary form.
-            
-        Input - desc: matrix of size (N,F) containing N 8F dimensional binary
-                    descriptors packed into N, F dimensional uint8s
-        
-        Output - binary_desc: matrix of size (N,8F) containing only 0s or 1s that 
-                            expands this to be explicit
-        '''
-        N, F = desc.shape
-        binary_desc = np.zeros((N,F*8))
-        for i in range(N):
-            for j in range(F):
-                binary_desc[i,(j*8):((j+1)*8)] = _bits[desc[i,j]]
-        return binary_desc
+        return matches, bounding_box
